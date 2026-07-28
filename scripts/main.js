@@ -349,7 +349,20 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
 
-document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+const revealScopeCounts = new Map();
+
+document.querySelectorAll('.reveal').forEach((element) => {
+  const scope = element.closest('section, footer') || document.body;
+  const scopeIndex = revealScopeCounts.get(scope) || 0;
+  revealScopeCounts.set(scope, scopeIndex + 1);
+
+  if (!element.classList.contains('from-left') && !element.classList.contains('from-right')) {
+    element.classList.add(scopeIndex % 2 === 0 ? 'from-left' : 'from-right');
+  }
+
+  element.style.setProperty('--reveal-delay', `${Math.min(scopeIndex % 4, 3) * 85}ms`);
+  observer.observe(element);
+});
 
 const profileSection = document.querySelector('[data-profile-section]');
 

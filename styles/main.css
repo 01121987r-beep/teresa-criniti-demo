@@ -325,6 +325,7 @@ em { font-weight: 400; color: var(--terracotta); }
 
 .site-footer {
   display: grid; grid-template-columns: 1.15fr 1.3fr .8fr auto 1.4fr; gap: 30px; align-items: center;
+  overflow: hidden;
   padding: 38px clamp(24px, 5vw, 80px); background: var(--sage-chrome); color: rgba(23,62,59,.72);
   border-top: 1px solid rgba(23,62,59,.12); font-size: 11px;
 }
@@ -346,8 +347,19 @@ em { font-weight: 400; color: var(--terracotta); }
 .whatsapp-float.is-near-footer { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(12px); }
 .whatsapp-float svg { width: 22px; height: 22px; fill: currentColor; }
 
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1); }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal {
+  --reveal-x: 0px; --reveal-delay: 0ms;
+  opacity: 0; filter: blur(4px);
+  transform: translate3d(var(--reveal-x), 18px, 0);
+  transition:
+    opacity .7s ease var(--reveal-delay),
+    transform .86s cubic-bezier(.16,.72,.22,1) var(--reveal-delay),
+    filter .6s ease var(--reveal-delay);
+  will-change: opacity, transform, filter;
+}
+.reveal.from-left { --reveal-x: -56px; }
+.reveal.from-right { --reveal-x: 56px; }
+.reveal.is-visible { opacity: 1; filter: none; transform: none; }
 
 .service-modal {
   width: min(720px, calc(100% - 32px)); max-height: calc(100svh - 32px); padding: 0; border: 0;
@@ -490,6 +502,8 @@ textarea { resize: vertical; }
   .profile-photo { max-width: 570px; }
   .profile-reveal.from-left { --profile-x: -38px; }
   .profile-reveal.from-right { --profile-x: 38px; }
+  .reveal.from-left { --reveal-x: -32px; }
+  .reveal.from-right { --reveal-x: 32px; }
   .map-frame { min-height: 430px; }
   .site-footer { grid-template-columns: 1fr 1fr; }
   .footer-icon-links { justify-content: flex-start; }
@@ -546,6 +560,6 @@ textarea { resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal { opacity: 1; filter: none; transform: none; }
   .profile-reveal { opacity: 1; filter: none; transform: none; }
 }
