@@ -469,13 +469,14 @@ textarea { resize: vertical; }
   :root {
     --safe-top: env(safe-area-inset-top, 0px);
     --header-h: calc(80px + var(--safe-top));
+    --visual-viewport-top: 0px;
   }
   .site-header {
-    position: sticky !important; z-index: 1000; inset: auto; top: 0; width: 100%;
+    position: fixed !important; z-index: 1000; inset: 0 0 auto 0; width: 100%;
     height: var(--header-h); min-height: var(--header-h);
-    margin-bottom: calc(0px - var(--header-h));
     padding: var(--safe-top) 22px 0;
-    transform: none !important; translate: none; backface-visibility: visible;
+    transform: translate3d(0, var(--visual-viewport-top), 0) !important;
+    backface-visibility: visible; will-change: transform;
     overflow: visible; clip-path: none; contain: none;
   }
   .site-header.scrolled {

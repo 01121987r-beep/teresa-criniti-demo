@@ -340,6 +340,30 @@ const updateHeader = () => header.classList.toggle('scrolled', window.scrollY > 
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
 
+let viewportHeaderFrame = 0;
+const syncHeaderToVisualViewport = () => {
+  if (window.innerWidth > 980) {
+    document.documentElement.style.removeProperty('--visual-viewport-top');
+    return;
+  }
+
+  const visualTop = Math.max(0, window.visualViewport?.offsetTop || 0);
+  document.documentElement.style.setProperty('--visual-viewport-top', `${visualTop.toFixed(2)}px`);
+};
+const scheduleHeaderViewportSync = () => {
+  if (viewportHeaderFrame) return;
+  viewportHeaderFrame = window.requestAnimationFrame(() => {
+    viewportHeaderFrame = 0;
+    syncHeaderToVisualViewport();
+  });
+};
+
+syncHeaderToVisualViewport();
+window.addEventListener('resize', scheduleHeaderViewportSync, { passive: true });
+window.addEventListener('scroll', scheduleHeaderViewportSync, { passive: true });
+window.visualViewport?.addEventListener('resize', scheduleHeaderViewportSync, { passive: true });
+window.visualViewport?.addEventListener('scroll', scheduleHeaderViewportSync, { passive: true });
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
