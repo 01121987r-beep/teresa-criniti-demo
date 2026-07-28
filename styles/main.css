@@ -471,8 +471,9 @@ textarea { resize: vertical; }
     --header-h: calc(80px + var(--safe-top));
   }
   .site-header {
-    position: fixed !important; z-index: 1000; inset: 0 0 auto 0; width: 100%;
+    position: sticky !important; z-index: 1000; inset: auto; top: 0; width: 100%;
     height: var(--header-h); min-height: var(--header-h);
+    margin-bottom: calc(0px - var(--header-h));
     padding: var(--safe-top) 22px 0;
     transform: none !important; translate: none; backface-visibility: visible;
     overflow: visible; clip-path: none; contain: none;
