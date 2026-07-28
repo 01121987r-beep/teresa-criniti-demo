@@ -376,6 +376,8 @@ em { font-weight: 400; color: var(--terracotta); }
 }
 .service-modal::backdrop { background: rgba(16,46,44,.62); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
 .service-modal-inner { position: relative; padding: clamp(32px, 6vw, 72px); }
+.service-modal-inner > .section-index,
+.modal-inner > .section-index { max-width: calc(100% - 54px); padding-right: 8px; }
 .service-modal-inner h2 {
   max-width: 590px; margin: 0 0 28px; font-family: var(--serif); font-size: clamp(44px, 6vw, 72px);
   line-height: .98; letter-spacing: -.04em; font-weight: 400;
