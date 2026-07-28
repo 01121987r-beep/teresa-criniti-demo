@@ -350,3 +350,15 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+
+const profileSection = document.querySelector('[data-profile-section]');
+
+if (profileSection) {
+  const profileObserver = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    profileSection.classList.add('is-profile-visible');
+    profileObserver.unobserve(profileSection);
+  }, { threshold: 0.18, rootMargin: '0px 0px -60px' });
+
+  profileObserver.observe(profileSection);
+}
